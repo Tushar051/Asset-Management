@@ -100,10 +100,6 @@
                                         placeholder="Search requests..."
                                         search="onSearchRequests"/>
                                     <ToolbarSpacer/>
-                                    <Button
-                                        text="Export"
-                                        icon="sap-icon://excel-attachment"
-                                        press="onExportRequests"/>
                                 </Toolbar>
                                 <List
                                     id="requestsList"
@@ -149,10 +145,6 @@
                                         search="onSearchAvailable"/>
                                     <ToolbarSpacer/>
                                     <Button
-                                        text="Export"
-                                        icon="sap-icon://excel-attachment"
-                                        press="onExportAvailable"/>
-                                    <Button
                                         text="Create Asset"
                                         type="Emphasized"
                                         icon="sap-icon://add"
@@ -188,10 +180,6 @@
                                         placeholder="Search assigned assets..."
                                         search="onSearchAssigned"/>
                                     <ToolbarSpacer/>
-                                    <Button
-                                        text="Export"
-                                        icon="sap-icon://excel-attachment"
-                                        press="onExportAssigned"/>
                                 </Toolbar>
                                 <List
                                     id="assignedAssetsList"
