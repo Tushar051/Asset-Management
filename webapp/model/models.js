@@ -12,9 +12,12 @@ sap.ui.define([
         },
 
         createDataModel: function () {
-            var oModel = new JSONModel();
-            oModel.loadData("model/mockData.json");
-            return oModel;
+            var oData = {
+                requests: [],
+                availableAssets: [],
+                assignedAssets: []
+            };
+            return new JSONModel(oData);
         }
     };
 });

@@ -1,5 +1,26 @@
 {
-  "requests": [],
+  "requests": [
+    {
+      "employeeId": "EMP001",
+      "employeeName": "Sarah Johnson",
+      "requestedAssetName": "MacBook Pro 16-inch",
+      "status": "In Progress"
+    },
+    {
+      "employeeId": "EMP002",
+      "employeeName": "Michael Chen",
+      "requestedAssetName": "Dell XPS 15",
+      "status": "In Progress"
+    }
+  ],
   "availableAssets": [],
-  "assignedAssets": []
+  "assignedAssets": [],
+  "adminProfile": {
+    "name": "John Smith",
+    "role": "System Administrator",
+    "employeeId": "ADM001",
+    "email": "john.smith@company.com"
+  },
+  "notifications": [],
+  "notificationCount": 0
 }

@@ -4,6 +4,22 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core">
     <Page title="Admin Dashboard" class="sapUiResponsiveContentPadding">
+        <headerContent>
+            <Button
+                icon="sap-icon://bell"
+                type="Transparent"
+                press="onNotificationPress"
+                tooltip="Notifications">
+                <customData>
+                    <core:CustomData key="badge" value="{/notificationCount}"/>
+                </customData>
+            </Button>
+            <Button
+                icon="sap-icon://person-placeholder"
+                type="Transparent"
+                press="onProfilePress"
+                tooltip="Profile"/>
+        </headerContent>
         <content>
             <VBox class="sapUiSmallMargin">
                 <HBox class="sapUiSmallMarginBottom">

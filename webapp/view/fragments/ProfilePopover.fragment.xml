@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Popover
+        title="Admin Profile"
+        placement="Bottom"
+        contentWidth="300px">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <HBox class="sapUiTinyMarginBottom" alignItems="Center">
+                    <Avatar
+                        src="sap-icon://person-placeholder"
+                        displaySize="L"
+                        class="sapUiTinyMarginEnd"/>
+                    <VBox>
+                        <Text text="{/adminProfile/name}" class="sapUiTinyMarginBottom"/>
+                        <Text text="{/adminProfile/role}"/>
+                    </VBox>
+                </HBox>
+                <VBox class="sapUiSmallMarginTop">
+                    <HBox class="sapUiTinyMarginBottom">
+                        <Label text="Employee ID:" class="sapUiTinyMarginEnd" width="100px"/>
+                        <Text text="{/adminProfile/employeeId}"/>
+                    </HBox>
+                    <HBox class="sapUiTinyMarginBottom">
+                        <Label text="Email:" class="sapUiTinyMarginEnd" width="100px"/>
+                        <Text text="{/adminProfile/email}"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Button text="Logout" type="Emphasized" press="onLogout"/>
+            </Toolbar>
+        </footer>
+    </Popover>
+</core:FragmentDefinition>
