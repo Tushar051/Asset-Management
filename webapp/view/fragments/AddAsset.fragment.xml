@@ -1,0 +1,40 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        title="Create New Asset"
+        contentWidth="500px">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <Label text="Asset Name" required="true" class="sapUiTinyMarginBottom"/>
+                <Input id="assetNameInput" placeholder="Enter asset name" class="sapUiSmallMarginBottom"/>
+
+                <Label text="Configuration" required="true" class="sapUiTinyMarginBottom"/>
+                <Input id="configurationInput" placeholder="Enter configuration details" class="sapUiSmallMarginBottom"/>
+
+                <Label text="Description" required="true" class="sapUiTinyMarginBottom"/>
+                <TextArea id="descriptionInput" rows="3" placeholder="Enter description" class="sapUiSmallMarginBottom"/>
+
+                <Label text="Category" required="true" class="sapUiTinyMarginBottom"/>
+                <Select id="categorySelect" class="sapUiSmallMarginBottom">
+                    <items>
+                        <core:Item key="Laptop" text="Laptop"/>
+                        <core:Item key="Mobile" text="Mobile"/>
+                        <core:Item key="Tablet" text="Tablet"/>
+                        <core:Item key="Monitor" text="Monitor"/>
+                        <core:Item key="Accessory" text="Accessory"/>
+                    </items>
+                </Select>
+
+                <Label text="Date" class="sapUiTinyMarginBottom"/>
+                <DatePicker id="assetDatePicker" enabled="false" class="sapUiSmallMarginBottom"/>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Create" type="Emphasized" press=".onSaveAsset"/>
+        </beginButton>
+        <endButton>
+            <Button text="Cancel" press=".onCancelAsset"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

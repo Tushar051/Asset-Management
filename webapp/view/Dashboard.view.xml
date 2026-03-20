@@ -1,0 +1,106 @@
+<mvc:View
+    controllerName="admin.asset.manager.controller.Dashboard"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
+    <Page title="Admin Dashboard" class="sapUiResponsiveContentPadding">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <HBox class="sapUiSmallMarginBottom">
+                    <VBox class="sapUiSmallMarginEnd" width="200px">
+                        <Text text="Total Assets" class="sapUiTinyMarginBottom"/>
+                        <ObjectNumber
+                            number="{
+                                parts: [
+                                    {path: '/availableAssets'},
+                                    {path: '/assignedAssets'}
+                                ],
+                                formatter: '.getTotalAssets'
+                            }"
+                            emphasized="true"
+                            unit="Assets"/>
+                    </VBox>
+                    <VBox class="sapUiSmallMarginEnd" width="200px">
+                        <Text text="Available Assets" class="sapUiTinyMarginBottom"/>
+                        <ObjectNumber
+                            number="{
+                                parts: [{path: '/availableAssets'}],
+                                formatter: '.getAvailableCount'
+                            }"
+                            emphasized="true"
+                            state="Success"/>
+                    </VBox>
+                    <VBox width="200px">
+                        <Text text="Assigned Assets" class="sapUiTinyMarginBottom"/>
+                        <ObjectNumber
+                            number="{
+                                parts: [{path: '/assignedAssets'}],
+                                formatter: '.getAssignedCount'
+                            }"
+                            emphasized="true"
+                            state="Information"/>
+                    </VBox>
+                </HBox>
+
+                <IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+                    <items>
+                        <IconTabFilter text="Asset Requests" key="requests">
+                            <List
+                                items="{/requests}"
+                                mode="SingleSelectMaster">
+                                <StandardListItem
+                                    title="{requestedAssetName}"
+                                    description="Employee: {employeeName}"
+                                    info="{status}"
+                                    type="Active"
+                                    press=".onRequestPress">
+                                    <customData>
+                                        <core:CustomData key="employeeId" value="{employeeId}"/>
+                                    </customData>
+                                </StandardListItem>
+                            </List>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="Available Assets" key="available">
+                            <VBox>
+                                <Toolbar>
+                                    <ToolbarSpacer/>
+                                    <Button
+                                        text="Create Asset"
+                                        type="Emphasized"
+                                        press=".onCreateAsset"/>
+                                </Toolbar>
+                                <List items="{/availableAssets}">
+                                    <StandardListItem
+                                        title="{assetName}"
+                                        description="{description}"
+                                        info="{category}"
+                                        infoState="Success">
+                                        <customData>
+                                            <core:CustomData key="configuration" value="{configuration}"/>
+                                        </customData>
+                                    </StandardListItem>
+                                </List>
+                            </VBox>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="Assigned Assets" key="assigned">
+                            <List items="{/assignedAssets}">
+                                <ObjectListItem
+                                    title="{assetName}"
+                                    intro="{employeeName}"
+                                    number="{assignedDate}"
+                                    numberUnit="{assignedTime}">
+                                    <attributes>
+                                        <ObjectAttribute text="{category}"/>
+                                        <ObjectAttribute text="{description}"/>
+                                    </attributes>
+                                </ObjectListItem>
+                            </List>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

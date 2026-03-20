@@ -1,0 +1,37 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        title="Request Details"
+        contentWidth="450px">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <HBox class="sapUiTinyMarginBottom">
+                    <Label text="Employee ID:" class="sapUiTinyMarginEnd" width="150px"/>
+                    <Text text="{employeeId}"/>
+                </HBox>
+                <HBox class="sapUiTinyMarginBottom">
+                    <Label text="Employee Name:" class="sapUiTinyMarginEnd" width="150px"/>
+                    <Text text="{employeeName}"/>
+                </HBox>
+                <HBox class="sapUiTinyMarginBottom">
+                    <Label text="Requested Asset:" class="sapUiTinyMarginEnd" width="150px"/>
+                    <Text text="{requestedAssetName}"/>
+                </HBox>
+                <HBox class="sapUiTinyMarginBottom">
+                    <Label text="Status:" class="sapUiTinyMarginEnd" width="150px"/>
+                    <Text text="{status}"/>
+                </HBox>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Accept" type="Accept" press=".onAcceptRequest"/>
+        </beginButton>
+        <buttons>
+            <Button text="Reject" type="Reject" press=".onRejectRequest"/>
+        </buttons>
+        <endButton>
+            <Button text="Close" press=".onCloseRequestDetail"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
