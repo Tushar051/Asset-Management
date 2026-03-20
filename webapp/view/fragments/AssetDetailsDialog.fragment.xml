@@ -1,0 +1,49 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Dialog
+        title="Asset Details"
+        contentWidth="500px">
+        <content>
+            <f:SimpleForm
+                editable="false"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12"
+                emptySpanXL="0"
+                emptySpanL="0"
+                emptySpanM="0"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Asset Name"/>
+                    <Text text="{assetName}"/>
+                    
+                    <Label text="Category"/>
+                    <Text text="{category}"/>
+                    
+                    <Label text="Configuration"/>
+                    <Text text="{configuration}"/>
+                    
+                    <Label text="Description"/>
+                    <Text text="{description}"/>
+                    
+                    <Label text="Date Added"/>
+                    <Text text="{date}"/>
+                    
+                    <Label text="Status"/>
+                    <ObjectStatus text="{status}" state="{statusState}"/>
+                </f:content>
+            </f:SimpleForm>
+        </content>
+        <buttons>
+            <Button text="Close" press="onCloseAssetDetails"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

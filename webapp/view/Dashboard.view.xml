@@ -6,6 +6,11 @@
     <Page title="Admin Dashboard" class="sapUiResponsiveContentPadding">
         <headerContent>
             <Button
+                icon="sap-icon://refresh"
+                type="Transparent"
+                press="onRefresh"
+                tooltip="Refresh"/>
+            <Button
                 icon="sap-icon://bell"
                 type="Transparent"
                 press="onNotificationPress"
@@ -22,97 +27,193 @@
         </headerContent>
         <content>
             <VBox class="sapUiSmallMargin">
-                <HBox class="sapUiSmallMarginBottom">
-                    <VBox class="sapUiSmallMarginEnd" width="200px">
-                        <Text text="Total Assets" class="sapUiTinyMarginBottom"/>
-                        <ObjectNumber
-                            number="{
-                                parts: [
-                                    {path: '/availableAssets'},
-                                    {path: '/assignedAssets'}
-                                ],
-                                formatter: '.getTotalAssets'
-                            }"
-                            emphasized="true"
-                            unit="Assets"/>
-                    </VBox>
-                    <VBox class="sapUiSmallMarginEnd" width="200px">
-                        <Text text="Available Assets" class="sapUiTinyMarginBottom"/>
-                        <ObjectNumber
-                            number="{
-                                parts: [{path: '/availableAssets'}],
-                                formatter: '.getAvailableCount'
-                            }"
-                            emphasized="true"
-                            state="Success"/>
-                    </VBox>
-                    <VBox width="200px">
-                        <Text text="Assigned Assets" class="sapUiTinyMarginBottom"/>
-                        <ObjectNumber
-                            number="{
-                                parts: [{path: '/assignedAssets'}],
-                                formatter: '.getAssignedCount'
-                            }"
-                            emphasized="true"
-                            state="Information"/>
-                    </VBox>
+                <HBox class="sapUiSmallMarginBottom" justifyContent="SpaceBetween">
+                    <GenericTile
+                        class="sapUiTinyMarginEnd"
+                        header="Total Assets"
+                        press="onTotalAssetsTilePress">
+                        <TileContent>
+                            <NumericContent
+                                value="{
+                                    parts: [
+                                        {path: '/availableAssets'},
+                                        {path: '/assignedAssets'}
+                                    ],
+                                    formatter: '.getTotalAssets'
+                                }"
+                                icon="sap-icon://product"
+                                valueColor="Neutral"/>
+                        </TileContent>
+                    </GenericTile>
+                    
+                    <GenericTile
+                        class="sapUiTinyMarginEnd"
+                        header="Available Assets"
+                        press="onAvailableAssetsTilePress">
+                        <TileContent>
+                            <NumericContent
+                                value="{
+                                    parts: [{path: '/availableAssets'}],
+                                    formatter: '.getAvailableCount'
+                                }"
+                                icon="sap-icon://inventory"
+                                valueColor="Good"/>
+                        </TileContent>
+                    </GenericTile>
+                    
+                    <GenericTile
+                        class="sapUiTinyMarginEnd"
+                        header="Assigned Assets"
+                        press="onAssignedAssetsTilePress">
+                        <TileContent>
+                            <NumericContent
+                                value="{
+                                    parts: [{path: '/assignedAssets'}],
+                                    formatter: '.getAssignedCount'
+                                }"
+                                icon="sap-icon://employee"
+                                valueColor="Critical"/>
+                        </TileContent>
+                    </GenericTile>
+                    
+                    <GenericTile
+                        header="Pending Requests">
+                        <TileContent>
+                            <NumericContent
+                                value="{
+                                    parts: [{path: '/requests'}],
+                                    formatter: '.getPendingCount'
+                                }"
+                                icon="sap-icon://request"
+                                valueColor="Error"/>
+                        </TileContent>
+                    </GenericTile>
                 </HBox>
 
                 <IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
                     <items>
-                        <IconTabFilter text="Asset Requests" key="requests">
-                            <List
-                                items="{/requests}"
-                                mode="SingleSelectMaster">
-                                <StandardListItem
-                                    title="{requestedAssetName}"
-                                    description="Employee: {employeeName}"
-                                    info="{status}"
-                                    type="Active"
-                                    press=".onRequestPress">
-                                    <customData>
-                                        <core:CustomData key="employeeId" value="{employeeId}"/>
-                                    </customData>
-                                </StandardListItem>
-                            </List>
-                        </IconTabFilter>
-
-                        <IconTabFilter text="Available Assets" key="available">
+                        <IconTabFilter text="Asset Requests" key="requests" icon="sap-icon://request" iconColor="Critical">
                             <VBox>
                                 <Toolbar>
+                                    <SearchField
+                                        width="300px"
+                                        placeholder="Search requests..."
+                                        search="onSearchRequests"/>
                                     <ToolbarSpacer/>
                                     <Button
-                                        text="Create Asset"
-                                        type="Emphasized"
-                                        press=".onCreateAsset"/>
+                                        text="Export"
+                                        icon="sap-icon://excel-attachment"
+                                        press="onExportRequests"/>
                                 </Toolbar>
-                                <List items="{/availableAssets}">
+                                <List
+                                    id="requestsList"
+                                    items="{/requests}"
+                                    mode="MultiSelect"
+                                    noDataText="No pending requests">
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <Title text="Pending Requests" level="H2"/>
+                                            <ToolbarSpacer/>
+                                            <Button
+                                                text="Approve Selected"
+                                                type="Accept"
+                                                press="onBulkApprove"
+                                                visible="{= ${/requests}.length > 0 }"/>
+                                            <Button
+                                                text="Reject Selected"
+                                                type="Reject"
+                                                press="onBulkReject"
+                                                visible="{= ${/requests}.length > 0 }"/>
+                                        </OverflowToolbar>
+                                    </headerToolbar>
                                     <StandardListItem
-                                        title="{assetName}"
-                                        description="{description}"
-                                        info="{category}"
-                                        infoState="Success">
+                                        title="{requestedAssetName}"
+                                        description="Employee: {employeeName} (ID: {employeeId})"
+                                        info="{status}"
+                                        type="Active"
+                                        press="onRequestPress">
                                         <customData>
-                                            <core:CustomData key="configuration" value="{configuration}"/>
+                                            <core:CustomData key="employeeId" value="{employeeId}"/>
                                         </customData>
                                     </StandardListItem>
                                 </List>
                             </VBox>
                         </IconTabFilter>
 
-                        <IconTabFilter text="Assigned Assets" key="assigned">
-                            <List items="{/assignedAssets}">
-                                <ObjectListItem
-                                    title="{assetName}"
-                                    intro="{employeeName}"
-                                    number="{assignedDate}"
-                                    numberUnit="{assignedTime}">
-                                    <attributes>
-                                        <ObjectAttribute text="{category}"/>
-                                        <ObjectAttribute text="{description}"/>
-                                    </attributes>
-                                </ObjectListItem>
-                            </List>
+                        <IconTabFilter text="Available Assets" key="available" icon="sap-icon://inventory" iconColor="Positive">
+                            <VBox>
+                                <Toolbar>
+                                    <SearchField
+                                        width="300px"
+                                        placeholder="Search assets..."
+                                        search="onSearchAvailable"/>
+                                    <ToolbarSpacer/>
+                                    <Button
+                                        text="Export"
+                                        icon="sap-icon://excel-attachment"
+                                        press="onExportAvailable"/>
+                                    <Button
+                                        text="Create Asset"
+                                        type="Emphasized"
+                                        icon="sap-icon://add"
+                                        press="onCreateAsset"/>
+                                </Toolbar>
+                                <List
+                                    id="availableAssetsList"
+                                    items="{/availableAssets}"
+                                    noDataText="No available assets. Click 'Create Asset' to add new assets.">
+                                    <ObjectListItem
+                                        title="{assetName}"
+                                        intro="{category}"
+                                        number="{date}"
+                                        type="Active"
+                                        press="onAssetDetailsPress">
+                                        <attributes>
+                                            <ObjectAttribute text="Config: {configuration}"/>
+                                            <ObjectAttribute text="{description}"/>
+                                        </attributes>
+                                        <firstStatus>
+                                            <ObjectStatus text="Available" state="Success"/>
+                                        </firstStatus>
+                                    </ObjectListItem>
+                                </List>
+                            </VBox>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="Assigned Assets" key="assigned" icon="sap-icon://employee" iconColor="Critical">
+                            <VBox>
+                                <Toolbar>
+                                    <SearchField
+                                        width="300px"
+                                        placeholder="Search assigned assets..."
+                                        search="onSearchAssigned"/>
+                                    <ToolbarSpacer/>
+                                    <Button
+                                        text="Export"
+                                        icon="sap-icon://excel-attachment"
+                                        press="onExportAssigned"/>
+                                </Toolbar>
+                                <List
+                                    id="assignedAssetsList"
+                                    items="{/assignedAssets}"
+                                    noDataText="No assets assigned yet">
+                                    <ObjectListItem
+                                        title="{assetName}"
+                                        intro="{employeeName}"
+                                        number="{assignedDate}"
+                                        numberUnit="{assignedTime}"
+                                        type="Active"
+                                        press="onAssignedAssetDetailsPress">
+                                        <attributes>
+                                            <ObjectAttribute text="{category}"/>
+                                            <ObjectAttribute text="{description}"/>
+                                        </attributes>
+                                        <firstStatus>
+                                            <ObjectStatus text="Assigned" state="Warning"/>
+                                        </firstStatus>
+                                    </ObjectListItem>
+                                </List>
+                            </VBox>
                         </IconTabFilter>
                     </items>
                 </IconTabBar>
